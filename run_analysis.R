@@ -62,4 +62,4 @@ names(tidy_data) <- nlist
 tidy_data2 <- tidy_data[,lapply(.SD,mean),.(WhoPerformActivity,ALabels)]
 
 # write data to text file
-write.table(tidy_data,row.name=FALSE, file = "./tidy_data.txt")
+write.table(tidy_data2,row.name=FALSE, file = "./tidy_data.txt")
