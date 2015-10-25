@@ -1,3 +1,5 @@
+library(data.table)
+
 # read and load X_test.txt file
 x_test <- read.table('./test/X_test.txt')
 # set the column names of x_test data frame
@@ -49,6 +51,15 @@ merged_data[,2] <- sapply(merged_data[,'Activity Labels'], function(i) des_label
 required_col <- grepl("mean|std", names(merged_data))
 required_col[1:2] <- c(TRUE,TRUE)
 
-tidy_data <- merged_data[,required_col]
-  
+tidy_data <- as.data.table(merged_data[,required_col])
+
+# some changes to the columns name to make the life easy
+nlist <- names(tidy_data)
+nlist[1:2] <- c('WhoPerformActivity','ALabels')
+names(tidy_data) <- nlist
+
+# create dataset mention in the 5th step
+tidy_data2 <- tidy_data[,lapply(.SD,mean),.(WhoPerformActivity,ALabels)]
+
+# write data to text file
 write.table(tidy_data,row.name=FALSE, file = "./tidy_data.txt")
